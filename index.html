@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>odin-calculator</title>
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+    <body>
+        <div class="container" id="display-container">
+            <div id="result-display"></div>
+            <div id="operand-display">0</div>
+        </div>
+        <div class="container" id="button-container">
+            <div class="container" id="digits-container">
+                <div id="row3">
+                    <button class="digits" id="button9">7</button>
+                    <button class="digits" id="button10">8</button>
+                    <button class="digits" id="button11">9</button>
+                </div>
+                <div id="row2">
+                    <button class="digits" id="button6">4</button>
+                    <button class="digits" id="button7">5</button>
+                    <button class="digits" id="button8">6</button>
+                </div>
+                <div id="row1">
+                    <button class="digits" id="button3">1</button>
+                    <button class="digits" id="button4">2</button>
+                    <button class="digits" id="button5">3</button>
+                </div>
+                <div id="row0">
+                    <button id="button0">C</button>
+                    <button class="digits" id="button1">0</button>
+                    <button id="button2">&lt;</button>
+                </div>
+            </div>
+            <div class="container" id="operator-container">
+                <button id="button12">=</button>
+                <button id="button13">/</button>
+                <button id="button14">x</button>
+                <button id="button15">-</button>
+                <button id="button16">+</button>
+            </div>
+        </div>
+        <input placeholder="debugger input" id="debug-input">
+        <script src="script.js"></script>
+    </body>
+</html>

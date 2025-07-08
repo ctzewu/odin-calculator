@@ -1,0 +1,51 @@
+body {
+    display: flex;
+    justify-content: center;
+    border: solid;
+    flex-direction: column;
+    margin: 3em;
+}
+
+div {
+    min-height: 20px;
+}
+
+.container {
+    border: solid;
+    border-width: 2px;
+    border-color: black;
+}
+
+#display-container{
+    margin: 10px;
+    padding: 10px;
+}
+
+#operand-display {
+    text-align: right;
+}
+
+#button-container {
+    display: flex;
+    flex: 2;
+    justify-content: center;
+    margin: 10px;
+    padding: 10px;
+}
+
+#digits-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#operator-container {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-around;
+}
+
+#button-container button {
+    margin: 10px;
+    padding: 20px;
+}

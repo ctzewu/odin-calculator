@@ -1,29 +1,16 @@
 const resultDisplay = document.getElementById("result-display");
 const operandDisplay = document.getElementById("operand-display");
+resultDisplay.textContent = "";
 let operatorCounter = 0;
+let operator = null;
+let firstNumber = null;
+let secondNumber = null;
+let result = "";
 
 const input = document.querySelector("input");
 
-const btnC = document.querySelector("#button0");
-const btn0 = document.querySelector("#button1");
-const btndel = document.querySelector("#button2");
-const btn1 = document.querySelector("#button3");
-const btn2 = document.querySelector("#button4");
-const btn3 = document.querySelector("#button5");
-const btn4 = document.querySelector("#button6");
-const btn5 = document.querySelector("#button7");
-const btn6 = document.querySelector("#button8");
-const btn7 = document.querySelector("#button9");
-const btn8 = document.querySelector("#button10");
-const btn9 = document.querySelector("#button11");
-
-const btneql = document.querySelector("#button12");
-const btndiv = document.querySelector("#button13");
-const btnmult = document.querySelector("#button14");
-const btnsub = document.querySelector("#button15");
-const btnadd = document.querySelector("#button16");
-
 const buttons = document.querySelectorAll("button");
+const decimalButton = document.getElementById("buttondec");
 
 buttons.forEach(btn => {
     btn.addEventListener("click", buttonPress);
@@ -32,40 +19,125 @@ buttons.forEach(btn => {
 function buttonPress(e) {
     let button = e.target;
     if (button.id == "button0"){
-        operandDisplay.textContent = "0";
-        operatorCounter = 0;
+        resetAll();
+    }
+    else if (button.id == "button2"){
+        let str = operandDisplay.textContent;
+        if (str != "0"){
+            if (str.length > 1){
+                str = str.substring(0, str.length - 1);
+            }
+            else str = "0";
+        }
+        operandDisplay.textContent = str;
+    }
+    else if (result != ""){
+        if (button.className == "digit"){
+            resetBackend();
+            if (button.id == "buttondec") operandDisplay.textContent = "0.";
+            else operandDisplay.textContent = button.textContent; 
+        }
+        else if (button.className == "operator"){
+            result = ""
+            operandDisplay.textContent = resultDisplay.textContent;
+            operatorCounter--;
+            operatorHandler(e);
+        }
+    }
+    //equal btn
+    else if (button.id == "button12"){
+        equalHandler(e);
     }
     else if (operandDisplay.textContent == "0"){
-        if (button.className == "digits"){
-           operandDisplay.textContent = button.textContent; 
+        if (button.className == "digit"){
+            if (button.id == "buttondec") operandDisplay.textContent += button.textContent; 
+            else operandDisplay.textContent = button.textContent; 
         }
         if (button.className == "operator"){
-            operatorCounter++;
-            operandDisplay.textContent += button.textContent;
+            operatorHandler(e);
         }
     }
-    else if (button.className == "digits"){
+    else if (button.className == "digit"){
         operandDisplay.textContent += button.textContent; 
     }
     else if (button.className == "operator"){
-        if (operatorCheck()){
-            operatorCounter++;
-            operandDisplay.textContent += button.textContent;
-        }
+        operatorHandler(e);
     }
-    // operandDisplay.textContent += e.target.textContent;
-    // let buttonType = btn.className;
-    // if (buttonType == "digit"){
-    //     operandDisplay.textContent += btn.textContent;
-    // }
+    decimalChecker();
 }
 
-function operatorCheck() {
-    if (operatorCounter > 0){
+function resetAll(){
+    operandDisplay.textContent = "0";
+    resultDisplay.textContent = "";
+    operatorCounter = 0;
+    operator = null;
+    firstNumber = null;
+    secondNumber = null;
+    result = ""
+}
+
+function resetBackend(){
+    operatorCounter = 0;
+    operator = null;
+    firstNumber = null;
+    secondNumber = null;
+    result = ""
+}
+
+function equalHandler(e){
+    if (operatorCounter == 0){
+        result = operandDisplay.textContent;
+    }
+    else {
+        let equation = operandDisplay.textContent.split(operator)
+        firstNumber = Number(equation[0]);
+        secondNumber = Number(equation[1]);
+
+        switch (operator){
+            case "+":
+                result = firstNumber + secondNumber;
+                break;
+            case "-":
+                result = firstNumber - secondNumber;
+                break;
+            case "x":
+                result = firstNumber * secondNumber;
+                break;
+            case "/":
+                if (secondNumber == 0){
+                    alert("cannot divide by 0")
+                    result = "0"
+                }
+                else result = firstNumber / secondNumber;
+                break;
+        }
+    }
+    resultDisplay.textContent = result;
+}
+
+function operatorHandler(e) {
+    let button = e.target;
+    if (operatorCounter >= 1){
         alert("only allowed 1 operator");
         return false;
     }
-    else return true;
+    else {
+        operatorCounter++;
+        firstNumber = Number(operandDisplay.textContent);
+        operandDisplay.textContent += button.textContent;
+        operator = button.textContent;
+    }
+}
+
+function decimalChecker(){
+    decimalButton.disabled = false;
+    if (operatorCounter > 0){
+        let equation = operandDisplay.textContent.split(operator);
+        if (equation[1].includes(".")) decimalButton.disabled = true;
+    }
+    else if (operatorCounter == 0){
+        if (operandDisplay.textContent.includes(".")) decimalButton.disabled = true;
+    }
 }
 
 input.addEventListener("input", updateValue);

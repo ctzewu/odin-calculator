@@ -140,8 +140,8 @@ function decimalChecker(){
     }
 }
 
-input.addEventListener("input", updateValue);
+// input.addEventListener("input", updateValue);
 
-function updateValue(e) {
-  operandDisplay.textContent = e.target.value;
-}
+// function updateValue(e) {
+//   operandDisplay.textContent = e.target.value;
+// }

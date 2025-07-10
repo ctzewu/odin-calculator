@@ -1,5 +1,6 @@
 const resultDisplay = document.getElementById("result-display");
 const operandDisplay = document.getElementById("operand-display");
+let operatorCounter = 0;
 
 const input = document.querySelector("input");
 
@@ -25,14 +26,46 @@ const btnadd = document.querySelector("#button16");
 const buttons = document.querySelectorAll("button");
 
 buttons.forEach(btn => {
-    btn.addEventListener("click", buttonPress(btn));
+    btn.addEventListener("click", buttonPress);
 });
 
-function buttonPress(btn) {
-    let buttonType = btn.className;
-    if (buttonType == "digit"){
-        operandDisplay.textContent += btn.textContent;
+function buttonPress(e) {
+    let button = e.target;
+    if (button.id == "button0"){
+        operandDisplay.textContent = "0";
+        operatorCounter = 0;
     }
+    else if (operandDisplay.textContent == "0"){
+        if (button.className == "digits"){
+           operandDisplay.textContent = button.textContent; 
+        }
+        if (button.className == "operator"){
+            operatorCounter++;
+            operandDisplay.textContent += button.textContent;
+        }
+    }
+    else if (button.className == "digits"){
+        operandDisplay.textContent += button.textContent; 
+    }
+    else if (button.className == "operator"){
+        if (operatorCheck()){
+            operatorCounter++;
+            operandDisplay.textContent += button.textContent;
+        }
+    }
+    // operandDisplay.textContent += e.target.textContent;
+    // let buttonType = btn.className;
+    // if (buttonType == "digit"){
+    //     operandDisplay.textContent += btn.textContent;
+    // }
+}
+
+function operatorCheck() {
+    if (operatorCounter > 0){
+        alert("only allowed 1 operator");
+        return false;
+    }
+    else return true;
 }
 
 input.addEventListener("input", updateValue);
